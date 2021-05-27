@@ -4,8 +4,8 @@ import axios from 'axios';
 
 const Exercise = props => (
     <tr>
-      <td>{props.exercise.username}</td>
       <td>{props.exercise.description}</td>
+      <td>{props.exercise.username}</td>
       <td>{props.exercise.duration}</td>
       <td>{props.exercise.date.substring(0,10)}</td>
       <td>
@@ -52,8 +52,8 @@ export default class ExercisesList extends Component {
                 <table className="table">
                     <thead className="thead-light">
                         <tr>
-                            <th>Username</th>
                             <th>Description</th>
+                            <th>Trainer</th>
                             <th>Duration</th>
                             <th>Date</th>
                             <th>Actions</th>
