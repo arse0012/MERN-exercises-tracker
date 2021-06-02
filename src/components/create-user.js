@@ -2,54 +2,51 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 export default class CreateUser extends Component {
-    constructor(props) {
-        super(props);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.state = {
-            username: ''
-        };
-    }
+    submitUser(event) {
+        event.preventDefault();
 
-    onChangeUsername(e) {
-        this.setState({
-            username: e.target.value
-        });
-    }
-    onSubmit(e) {
-        e.preventDefault();
-        const newUser = {
-            username: this.state.username,
-        };
-        console.log(newUser);
-        
-        axios.post('http://localhost:5000/users/add', newUser)
-            .then(res => console.log(res.data));
-
-        this.setState({
-            username: ''
+        axios.post("http://localhost:5000/users", {
+            firstName: this.refs.firstName.value,
+            lastName: this.refs.lastName.value,
+            phone: this.refs.phone.value,
+            email: this.refs.email.value
         })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     render() {
         return (
-            <div>
-                <h3>Add Trainer</h3>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>Name: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.username}
-                            onChange={this.onChangeUsername}
-                        />
+            <div className="row">
+                <h3>Add User</h3>
+                <form className="col s12" onSubmit={this.submitUser.bind(this)}>
+                    <div className="row">
+                        <div className="input-field col s6">
+                            <input id="firstName" ref="firstName" type="text" />
+                            <label htmlFor="firstName">First Name</label>
+                        </div>
+                        <div className="input-field col s6">
+                            <input id="lastName" ref="lastName" type="text" />
+                            <label htmlFor="lastName">Last Name</label>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <input type="submit" value="Add" className="btn btn-primary" />
+                    <div className="row">
+                        <div className="input-field col s6">
+                            <input id="phone" ref="phone" type="text" />
+                            <label htmlFor="phone">Phone</label>
+                        </div>
+                        <div className="input-field col s6">
+                            <input id="email" ref="email" type="text" />
+                            <label htmlFor="email">Email</label>
+                        </div>
                     </div>
+                    <button className="btn btn-primary" type="submit" name="action">Add User</button>
                 </form>
             </div>
-        )
+        );
     }
 }

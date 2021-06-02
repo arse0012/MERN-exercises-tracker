@@ -27,8 +27,9 @@ export default class CreateExercise extends Component {
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        users: response.data.map(user => user.username),
-                        username: response.data[0].username
+                        users: response.data.map(user => user.firstName + " " + user.lastName),
+                        firstName: response.data[0].firstName,
+                        lastName: response.data.lastName
                     });
                 }
             })
@@ -78,60 +79,55 @@ export default class CreateExercise extends Component {
 
         window.location = '/';
     }
+    submitExercise(event) {
+        event.preventDefault();
+
+        axios.post('http://localhost:5000/exercises', {
+            teachername: this.refs.teachername.value,
+            description: this.refs.description.value,
+            duration: this.refs.duration.value,
+            date: this.refs.date.value
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     render() {
         return (
-            <div>
-                <h3>Create New Exercise Log</h3>
-                <form onSubmit={this.onSubmit}>
+            <div className="form-group">
+                <h3>Create New Exercise</h3>
+                <form className="col s12" onSubmit={this.submitExercise.bind(this)}>
                     <div className="form-group">
-                        <label>Trainer: </label>
-                        <select ref="userInput"
-                            required
-                            className="form-control"
-                            value={this.state.username}
-                            onChange={this.onChangeUsername}>
-                            {
-                                this.state.users.map(function (user) {
-                                    return <option
-                                        key={user}
-                                        value={user}>{user}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Description: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.description}
-                            onChange={this.onChangeDescription}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Duration (in minutes): </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={this.state.duration}
-                            onChange={this.onChangeDuration}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Date: </label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.date}
-                                onChange={this.onChangeDate}
-                            />
+                        <div className="row">
+                            <label htmlFor="trainer">Trainer</label>
+                            <select id="trainer" ref="trainer" required className="row">
+                                {this.state.users.map(function (user) { return <option key={user} value={user}> {user} </option>; })}
+                            </select>
                         </div>
                     </div>
-
                     <div className="form-group">
-                        <input type="submit" value="Log Exercise" className="btn btn-primary" />
+                        <div className="input-field col s6">  
+                            <input id="description" ref="description" type="text" />
+                            <label htmlFor="description">Description</label>
+                        </div>
+                        <div className="input-field col s6">
+                            <input id="duration" ref="duration" type="number" />
+                            <label htmlFor="duration">Duration (in minutes) </label>
+                        </div>
                     </div>
+                    <div className="form-group">
+                        <div className="row">
+                            <label htmlFor="date">Date</label>
+                            <div>
+                                <DatePicker selected={this.state.date} onChange={this.onChangeDate} />
+                            </div>
+                        </div>
+                    </div>
+                    <button className="btn btn-primary" type="submit" name="action">Log Exercise</button>
                 </form>
             </div>
         )

@@ -12,7 +12,7 @@ import Navbar from "./components/navbar";
 function App() {
   return (
     <Router>
-      <div className="container">
+      <div className="app">
         <Navbar />
         <br />
         <Route path="/" exact component={ExercisesList} />

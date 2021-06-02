@@ -7,28 +7,23 @@ export default class EditExercise extends Component {
     constructor(props) {
         super(props);
 
+        /*this.updateCurrentExercise = this.updateCurrentExercise.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeDuration = this.onChangeDuration.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);*/
 
         this.state = {
-            username: '',
-            description: '',
-            duration: 0,
-            date: new Date(),
-            users: []
+            exercises: [],
+            currentExercise: {},
         }
     }
     componentDidMount() {
-        axios.get('http://localhost:5000/exercises/' + this.props.match.params.id)
+        axios.get('http://localhost:5000/exercises/')
             .then(response => {
                 this.setState({
-                    username: response.data.username,
-                    description: response.data.description,
-                    duration: response.data.duration,
-                    date: new Date(response.data.date)
+                    exercises: response.data
                 })
             })
             .catch(function (error) {
@@ -37,12 +32,19 @@ export default class EditExercise extends Component {
 
         axios.get('http://localhost:5000/users/')
             .then(response => {
-                this.setState({ users: response.data.map(user => user.username) });
+                this.setState({ 
+                    users: response.data 
+                });
             })
             .catch((error) => {
                 console.log(error);
             })
     }
+    updateCurrentExercise(item) {
+        this.setState({
+          currentExercise: item,
+        })
+      }
 
     onChangeUsername(e) {
         this.setState({
