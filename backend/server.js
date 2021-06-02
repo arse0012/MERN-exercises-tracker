@@ -14,6 +14,7 @@ const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useFindAndModify: false,
   useUnifiedTopology: true
 }
 );
@@ -27,6 +28,10 @@ const usersRouter = require("./routes/users");
 
 app.use("/exercises", exercisesRouter);
 app.use("/users", usersRouter);
+
+app.get('/', (req, res) => 
+  res.send(`Our exercise application is running on ${port}`)
+);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
