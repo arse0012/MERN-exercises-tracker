@@ -7,29 +7,31 @@ export default class CreateExercise extends Component {
     constructor(props) {
         super(props);
 
-        this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangeFirstName = this.onChangeFirstName.bind(this);
+        this.onChangeLastName = this.onChangeLastName.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeDuration = this.onChangeDuration.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            username: '',
+            firstName: '',
+            lastName: '',
             description: '',
-            duration: 0,
+            duration: '',
             date: new Date(),
-            users: []
+            trainers: []
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/users/')
+        axios.get('http://localhost:5000/trainers/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        users: response.data.map(user => user.firstName + " " + user.lastName),
+                        trainers: response.data.map(trainer => trainer.firstName + " " + trainer.lastName),
                         firstName: response.data[0].firstName,
-                        lastName: response.data.lastName
+                        lastName: response.data[0].lastName
                     });
                 }
             })
@@ -38,9 +40,14 @@ export default class CreateExercise extends Component {
             })
     }
 
-    onChangeUsername(e) {
+    onChangeFirstName(e) {
         this.setState({
-            username: e.target.value
+            firstName: e.target.value
+        });
+    }
+    onChangeLastName(e) {
+        this.setState({
+            lastName: e.target.value
         });
     }
 
@@ -66,7 +73,8 @@ export default class CreateExercise extends Component {
         e.preventDefault();
 
         const exercise = {
-            username: this.state.username,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             description: this.state.description,
             duration: this.state.duration,
             date: this.state.date,
@@ -74,50 +82,43 @@ export default class CreateExercise extends Component {
 
         console.log(exercise);
 
-        axios.post('http://localhost:5000/exercises/add', exercise)
+        axios.post('http://localhost:5000/exercises', exercise)
             .then(res => console.log(res.data));
 
         window.location = '/';
     }
-    submitExercise(event) {
-        event.preventDefault();
-
-        axios.post('http://localhost:5000/exercises', {
-            teachername: this.refs.teachername.value,
-            description: this.refs.description.value,
-            duration: this.refs.duration.value,
-            date: this.refs.date.value
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
 
     render() {
         return (
-            <div className="form-group">
+            <div>
                 <h3>Create New Exercise</h3>
-                <form className="col s12" onSubmit={this.submitExercise.bind(this)}>
-                    <div className="form-group">
-                        <div className="row">
-                            <label htmlFor="trainer">Trainer</label>
-                            <select id="trainer" ref="trainer" required className="row">
-                                {this.state.users.map(function (user) { return <option key={user} value={user}> {user} </option>; })}
-                            </select>
-                        </div>
+                <form onSubmit={this.onSubmit}>
+                    <div className="row">
+                        <label htmlFor="trainer">Trainer</label>
+                        <select id="trainer" required className="form-control">
+                            {this.state.trainers.map(function (trainer) { return <option key={trainer} value={trainer}> {trainer} </option>; })}
+                        </select>
                     </div>
-                    <div className="form-group">
-                        <div className="input-field col s6">  
-                            <input id="description" ref="description" type="text" />
+                    <div className="row">
+                        <div className="input-field col s6">
+                            <input type="text"
+                                required
+                                className="form-control"
+                                value={this.state.description}
+                                onChange={this.onChangeDescription}
+                            />
                             <label htmlFor="description">Description</label>
                         </div>
                         <div className="input-field col s6">
-                            <input id="duration" ref="duration" type="number" />
+                            <input type="text"
+                                required
+                                className="form-control"
+                                value={this.state.duration}
+                                onChange={this.onChangeDuration}
+                            />
                             <label htmlFor="duration">Duration (in minutes) </label>
                         </div>
+
                     </div>
                     <div className="form-group">
                         <div className="row">

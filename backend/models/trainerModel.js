@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const trainerSchema = new Schema({
   firstName: {
     type: String,
     required: true,
@@ -22,6 +22,6 @@ const userSchema = new Schema({
   timestamps: true,
 });
 
-const User = mongoose.model("User", userSchema);
+const Trainer = mongoose.model("Trainer", trainerSchema);
 
-module.exports = User;
+module.exports = Trainer;

@@ -5,7 +5,7 @@ import axios from 'axios';
 const Exercise = props => (
     <tr>
         <td>{props.exercise.description}</td>
-        <td>{props.exercise.username}</td>
+        <td>{props.exercise.firstName} {props.exercise.lastName}</td>
         <td>{props.exercise.duration}</td>
         <td>{props.exercise.date.substring(0, 10)}</td>
         <td>
@@ -15,7 +15,7 @@ const Exercise = props => (
 )
 
 
-class ExercisesList extends React.Component {
+class ExercisesList extends Component {
     constructor(props) {
         super(props);
         this.deleteExercise = this.deleteExercise.bind(this);

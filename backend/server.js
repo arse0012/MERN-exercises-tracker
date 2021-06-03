@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const exercisesRouter = require("./routes/exercises");
+const trainersRouter = require("./routes/trainers");
 
 require("dotenv").config();
 
@@ -18,18 +20,17 @@ mongoose.connect(uri, {
   useUnifiedTopology: true
 }
 );
+
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 })
 
-const exercisesRouter = require("./routes/exercises");
-const usersRouter = require("./routes/users");
 
 app.use("/exercises", exercisesRouter);
-app.use("/users", usersRouter);
+app.use("/trainers", trainersRouter);
 
-app.get('/', (req, res) => 
+app.get('/', (req, res) =>
   res.send(`Our exercise application is running on ${port}`)
 );
 

@@ -4,9 +4,11 @@ import axios from 'axios';
 
 const User = props => (
     <tr>
-        <td>{props.user.username}</td>
+        <td>{props.user.firstName} {props.user.lastName}</td>
+        <td>{props.user.email}</td>
+        <td>{props.user.phone}</td>
         <td>
-            <Link to={"/edit/" + props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
+            <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
         </td>
     </tr>
 )
@@ -50,6 +52,9 @@ export default class TrainersList extends Component {
                     <thead className="thead-light">
                         <tr>
                             <th>Trainer</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>

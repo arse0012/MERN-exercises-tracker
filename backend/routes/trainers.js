@@ -1,34 +1,34 @@
 const router = require("express").Router();
-let User = require("../models/userModel");
+let Trainer = require("../models/trainerModel");
 
 router.route("/")
   .get((req, res) => {
-    User.find()
-      .then(users => res.json(users))
+    Trainer.find()
+      .then(trainers => res.json(trainers))
       .catch(err => res.status(400).json("Error: " + err));
   })
   .post((req, res) => {
-    const newUser = new User(req.body);
+    const newTrainer = new Trainer(req.body);
 
-    newUser.save()
-      .then(() => res.json("User added!"))
+    newTrainer.save()
+      .then(() => res.json("Trainer added!"))
       .catch(err => res.status(400).json("Error: " + err));
   });
 
-router.route('/:UserId')
+router.route('/:TrainerId')
   .get((req, res) => {
-    User.findById(req.params.UserId)
-      .then(user => res.json(user))
+    User.findById(req.params.TrainerId)
+      .then(trainer => res.json(trainer))
       .catch(err => res.status(400).json('Error: ' + err));
   })
   .delete((req, res) => {
     User.findByIdAndDelete(req.params.UserId)
-      .then(() => res.json('User deleted.'))
+      .then(() => res.json('Trainer deleted.'))
       .catch(err => res.status(400).json('Error: ' + err));
   })
   .put((req, res) => {
-    User.findOneAndUpdate({ _id: req.params.UserId }, req.body, { new: true })
-      .then(() => res.json('User updated!'))
+    User.findOneAndUpdate({ _id: req.params.TrainerId }, req.body, { new: true })
+      .then(() => res.json('Trainer updated!'))
       .catch(err => res.status(400).json('Error: ' + err));
   });
 

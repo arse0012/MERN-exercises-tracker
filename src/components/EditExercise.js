@@ -7,48 +7,52 @@ export default class EditExercise extends Component {
     constructor(props) {
         super(props);
 
-        /*this.updateCurrentExercise = this.updateCurrentExercise.bind(this);
+        
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeDuration = this.onChangeDuration.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);*/
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            exercises: [],
-            currentExercise: {},
+            firstName: '',
+            lastName: '',
+            description:'',
+            duration: 0,
+            date: new Date(),
+            users: []
         }
     }
     componentDidMount() {
-        axios.get('http://localhost:5000/exercises/')
+        axios.get('http://localhost:5000/exercises/'+this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    exercises: response.data
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    description: response.data.description,
+                    duration: response.data.duration,
+                    date: new Date(response.data.date),
                 })
             })
             .catch(function (error) {
                 console.log(error);
             })
 
-        axios.get('http://localhost:5000/users/')
+        axios.get('http://localhost:5000/trainers/')
             .then(response => {
                 this.setState({ 
-                    users: response.data 
+                    trainers: response.data.map(trainer => trainer.firstName + ' ' + trainer.lastName)
                 });
             })
             .catch((error) => {
                 console.log(error);
             })
     }
-    updateCurrentExercise(item) {
-        this.setState({
-          currentExercise: item,
-        })
-      }
 
     onChangeUsername(e) {
         this.setState({
-            username: e.target.value
+            firstName: e.target.value,
+            lastName: e.target.value
         });
     }
 
@@ -74,7 +78,8 @@ export default class EditExercise extends Component {
         e.preventDefault();
 
         const exercise = {
-            username: this.state.username,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             description: this.state.description,
             duration: this.state.duration,
             date: this.state.date,
@@ -82,7 +87,7 @@ export default class EditExercise extends Component {
 
         console.log(exercise);
 
-        axios.post('http://localhost:5000/exercises/update/' + this.props.match.params.id, exercise)
+        axios.post('http://localhost:5000/exercises/' + this.props.match.params.id, exercise)
             .then(res => console.log(res.data));
 
         window.location = '/';
@@ -94,16 +99,16 @@ export default class EditExercise extends Component {
                 <h3>Edit Exercise Log</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label>Username: </label>
+                        <label>Trainer: </label>
                         <select ref="userInput"
                             className="form-control"
-                            value={this.state.username}
+                            value={this.state.firstName}
                             onChange={this.onChangeUsername}>
                             {
-                                this.state.users.map(function (user) {
+                                this.state.trainers.map(function (trainer) {
                                     return <option
-                                        key={user}
-                                        value={user}>{user}
+                                        key={trainer}
+                                        value={trainer}>{trainer}
                                     </option>;
                                 })
                             }

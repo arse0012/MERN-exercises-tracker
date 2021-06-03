@@ -10,8 +10,8 @@ class Navbar extends Component {
           <nav className="nav blue darken navbar-nav ml-auto">
             <h1 className="nav-brand">Exercise Log</h1>
             <li className="nav-item"> <Link to="/" className="nav-link">Exercises</Link></li>
-            <li className="nav-item"> <Link to="/create" className="nav-link">Create Log</Link></li>
-            <li className="nav-item"> <Link to="/trainers" className="nav-link">Trainers</Link></li>
+            <li className="nav-item"> <Link to="/newexercise" className="nav-link">Create Log</Link></li>
+            <li className="nav-item"> <Link to="/newtrainer" className="nav-link">Trainers</Link></li>
           </nav>
         </div>
       </div>
