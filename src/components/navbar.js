@@ -11,7 +11,7 @@ class Navbar extends Component {
             <h1 className="nav-brand">Exercise Log</h1>
             <li className="nav-item"> <Link to="/" className="nav-link">Exercises</Link></li>
             <li className="nav-item"> <Link to="/newexercise" className="nav-link">Create Log</Link></li>
-            <li className="nav-item"> <Link to="/newtrainer" className="nav-link">Trainers</Link></li>
+            <li className="nav-item"> <Link to="/trainers" className="nav-link">Trainers</Link></li>
           </nav>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export default class CreateUser extends Component {
+export default class CreateTrainer extends Component {
     constructor(props) {
         super(props);
 
@@ -41,15 +41,15 @@ export default class CreateUser extends Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        const newUser = {
+        const newTrainer = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             phone: this.state.phone,
             email: this.state.email
         };
-        console.log(newUser);
+        console.log(newTrainer);
 
-        axios.post('http://localhost:5000/users', newUser)
+        axios.post('http://localhost:5000/trainers', newTrainer)
         .then(res => console.log(res.data));
 
         this.setState({
@@ -63,7 +63,7 @@ export default class CreateUser extends Component {
     render() {
         return (
             <div className="row">
-                <h3>Create User</h3>
+                <h3>Create Trainer</h3>
                 <form className="col s12" onSubmit={this.onSubmit}>
                     <div className="row">
                         <div className="input-field col s6">
@@ -101,7 +101,7 @@ export default class CreateUser extends Component {
                             <label htmlFor="email">Email</label>
                         </div>
                     </div>
-                    <button className="btn btn-primary" type="submit" name="action">Add User</button>
+                    <button className="btn btn-primary" type="submit" name="action">Add</button>
                 </form>
             </div>
         );

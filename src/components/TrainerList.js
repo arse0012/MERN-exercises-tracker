@@ -2,45 +2,45 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const User = props => (
+const Trainer = props => (
     <tr>
-        <td>{props.user.firstName} {props.user.lastName}</td>
-        <td>{props.user.email}</td>
-        <td>{props.user.phone}</td>
+        <td>{props.trainer.firstName} {props.trainer.lastName}</td>
+        <td>{props.trainer.email}</td>
+        <td>{props.trainer.phone}</td>
         <td>
-            <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
+            <a href="#" onClick={() => { props.deleteTrainer(props.trainer._id) }}>delete</a>
         </td>
     </tr>
 )
 
-export default class TrainersList extends Component {
+export default class TrainerList extends Component {
     constructor(props) {
         super(props);
-        this.deleteUser = this.deleteUser.bind(this);
-        this.state = { users: [] };
+        this.deleteTrainer = this.deleteTrainer.bind(this);
+        this.state = { trainers: [] };
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/users/')
+        axios.get('http://localhost:5000/trainers')
             .then(response => {
-                this.setState({ users: response.data });
+                this.setState({ trainers: response.data });
             })
             .catch((error) => {
                 console.log(error);
             })
     }
 
-    deleteUser(id) {
-        axios.delete('http://localhost:5000/users/' + id)
+    deleteTrainer(id) {
+        axios.delete('http://localhost:5000/trainers/' + id)
             .then(res => console.log(res.data));
         this.setState({
-            users: this.state.users.filter(el => el._id !== id)
+            trainers: this.state.trainers.filter(el => el._id !== id)
         })
     }
 
     trainerList() {
-        return this.state.users.map(currenttrainer => {
-            return <User user={currenttrainer} deleteUser={this.deleteUser} key={currenttrainer._id} />;
+        return this.state.trainers.map(currenttrainer => {
+            return <Trainer trainer={currenttrainer} deleteTrainer={this.deleteTrainer} key={currenttrainer._id} />;
         })
     }
 
@@ -62,7 +62,7 @@ export default class TrainersList extends Component {
                     </tbody>
                 </table>
                 <div className="navbar-item">
-                    <Link to="/user" className="btn btn-primary">Add Trainer</Link>
+                    <Link to="/newtrainer" className="btn btn-primary">Add Trainer</Link>
                 </div>
             </div>
         )
